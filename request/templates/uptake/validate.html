@@ -1,0 +1,101 @@
+<div class="modal-dialog modal-xl modal-dialog-centered">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Valide los datos ingresados</h4>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form action="{{ option }}" method="get">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>No. de pre solicitud</label>
+              <input type="text" id="v_prerequest" value="{{ prequest.number }}" readonly class="form-control form-control-border"/>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>No. quirófano</label>
+              <input type="text" id="v_operating_room" value="{{ uptake.operating_room }}" readonly class="form-control form-control-border"/>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>No. de hoja</label>
+              <input type="text" id="v_uptake" value="{{ uptake.number }}" readonly class="form-control form-control-border"/>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Paciente</label>
+              <input type="text" id="v_patient" value="{{ prequest.patient }}" readonly class="form-control form-control-border"/>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Diagnóstico</label>
+              <input type="text" id="v_diagnosis" value="{{ prequest.diagnosis }}" readonly class="form-control form-control-border"/>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Procedimiento</label>
+              <input type="text" id="v_procedure" value="{{ prequest.procedure }}" readonly class="form-control form-control-border"/>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Cirujano</label>
+              <input type="text" id="v_surgeon" value="{{ uptake.surgeon }}" readonly class="form-control form-control-border"/>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Instrumentista</label>
+              <input type="text" id="v_instrumentalist" value="{{ uptake.instrumentalist }}" readonly class="form-control form-control-border"/>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Circulante</label>
+              <input type="text" id="v_circulating" value="{{ uptake.circulating }}" readonly class="form-control form-control-border"/>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <label>Material(es)</label>
+        <table id="v_details" class="table table-bordered table-striped" style="width:100%">
+          <thead>
+            <tr>
+              <th>Material</th>
+              <th>Cantidad</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for item in detail %}
+            <tr>
+              <td>{{ item.material.code }} / {{ item.material.name }} - {{ item.material.description }}</td>
+              <td>{{ item.amount }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        
+        {% if more %}
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="number_siaf">Número de SIAF</label>
+              <input type="text" id="number_siaf" name="number_siaf" placeholder="Ingrese el número de SIAF" required class="form-control"/>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn btn-danger"><i class="fas fa-times"></i> CANCELAR </button>
+        <button type="submit" class="btn btn btn-primary" id="btn-validate-prequest"><i class="fas fa-save"></i> CONFIRMAR </button>
+      </div>
+    </form>
+  </div>
+</div>

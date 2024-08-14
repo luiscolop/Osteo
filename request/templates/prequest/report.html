@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @page {
+      size: 8.5in 11in;
+      margin: 1cm;
+    }
+    .format-number{
+      font-weight: bold;
+      text-align:right;
+    }
+    .no-pre{
+      font-size: 14px;
+      line-height: 2.3;
+      display: flex;
+      text-align: right;
+    }
+    .no-pre > span{
+      font-weight: bold;
+    }
+
+    .info{
+      font-size: 14px;
+      line-height: 2.3;
+    }
+    .info > span{
+      font-weight: bold;
+    }
+
+    #materials thead tr th {
+      font-size: 14px;
+      text-align:center;
+      border-top:1px solid black;
+      border-left: 1px solid black;
+      border-right: 1px solid black;
+      border-bottom:1px solid black;
+      padding-top:4px;
+    }
+
+    #materials thead tr{
+      margin-bottom:0;
+      padding-bottom:0;
+    }
+
+    #materials tbody tr{
+      font-size: 12px;
+      text-align:center;
+      border-top:1px solid black;
+      border-left: 1px solid black;
+      border-right: 1px solid black;
+      border-bottom:1px solid black;
+      padding:5px 5px 5px 5px;
+    }
+
+    #materials tfoot tr th {
+      text-align:right;
+      border-bottom:1px solid black;
+      border-top:1px solid black;
+      padding-top:4px;
+    }
+  </style>
+</head>
+<body>
+  <p class="head"> 
+    <div class="format-number"> SPS-987 </div>
+    <h1 style="text-align: center;">PRESOLICITUD DE DISPOSITIVOS DE FIJACIÓN INTERNA O EXTERNA Y OTROS 
+    <br/>
+    MATERIALES</h1>
+  </p>
+  <div class="no-pre">
+    <span>No. de presolicitud:</span><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.number}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
+  </div>
+  <div class="info">
+    <span>Lugar y fecha:</span><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quetzaltenango {{ prequest.date }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <span>No. De afilicación:</span><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.patient.membership }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
+    <br>
+    <span>Nombres y apellidos del paciente:</span> <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.patient.first_name }} {{ prequest.patient.last_name }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
+    <br>
+    <span>Diagnóstico:</span> <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.diagnosis }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
+    <br>
+    <span>Procedimiento quirúrgico:</span> <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.procedure }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
+    <br>
+    <span>Servicio o sala:</span> <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.service }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <span>No. de cama:</span> <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.bed }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <span>Fecha de operación:</span> <u>{{ prequest.operation }}</u>
+  </div>
+  <br>
+  <table id="materials">
+    <thead>
+      <tr>
+        <th width="15%">CÓDIGO</th>
+        <th width="70%">DESCRIPCIÓN</th>
+        <th>CANTIDAD</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      {% if prequest.stock %}
+        {% for item in detail %}
+          <tr>
+            <td>{{ item.lot.entry_detail.material.code }}</td>
+            <td>{{ item.lot.entry_detail.material.name }} - {{ item.lot.entry_detail.material.description }}</td>
+            <td style="text-align:center;">{{ item.amount }}</td>
+          </tr>
+        {% endfor %}
+      {% else %}
+        {% for item in detail %}
+          <tr>
+            <td>{{ item.material.code }}</td>
+            <td>{{ item.material.name }} - {{ item.material.description }}</td>
+            <td style="text-align:center;">{{ item.amount }}</td>
+          </tr>
+        {% endfor %}
+      {% endif %}
+        
+    </tbody>
+  </table>
+  <br/>
+  <div class="info">
+    <span>Observaciones:</span> <u>{{ prequest.comment }}</u>
+  </div>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <u>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </u>
+  <br>
+  <span>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Nombres y Apellidos del Jefe de Servicio de
+    <br> 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Enfermería o Enfermera/o de Turno
+  </span>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <u>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </u>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <u>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </u>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <br/>
+  <span>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Firma del Jefe de Servicio de Enfermería de
+  </span>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <span style="text-align: right;">Firma y sello del Jefe de Servicio</span>
+  <br/>
+  <span>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Enfermera/o de Turno y Sello de Servicio
+  </span>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <span>Médico o Especialista</span>
+</body>
+</html>
