@@ -1,0 +1,70 @@
+{% extends "admin.html" %}
+
+{% block content %}
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">Usuario</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="{% url 'inventory:dashboard' %}">Tablero</a></li>
+          <li class="breadcrumb-item active">Usuario</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Listado de usuarios</h5>
+            <button type="button" class="btn btn-primary float-right" onclick="openModal(`{% url 'authentication:user_create' %}`)"><i class="fas fa-plus"></i> Nuevo</button>
+          </div>
+          <div class="card-body">
+            <table id="lists" class="table table-bordered table-striped" style="width:100%">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Usuario</th>
+                  <th>Correo</th>
+                  <th>Fecha de creación</th>
+                  <th>Última sesión iniciada</th>
+                  <th>Estado</th>
+                  <th>Opciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in object_list %}
+                  <tr>
+                    <td>{{ item.first_name }} {{ item.last_name }}</td>
+                    <td>{{ item.username }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.date_joined }}</td>
+                    <td>{{ item.last_login }}</td>
+                    <td class="text-center">
+                      {% if item.is_active %}
+                        <small class="badge badge-success"> Activo</small>
+                      {% else %}
+                        <small class="badge badge-danger"> Inactivo</small>
+                      {% endif %}
+                    </td>
+                    <td class="text-center">
+                      <button class="btn btn-warning" onclick="openModal(`{% url 'authentication:user_edit' item.pk %}`)"><i class="fas fa-edit"></i></button>
+                      <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

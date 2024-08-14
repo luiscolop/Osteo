@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OSTEO | {{ title }}</title>
+  <link rel="icon" type="image/x-icon" href="{% static 'assets/images/favicon.ico' %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="{% static 'assets/plugins/fontawesome-free/css/all.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/plugins/jquery-ui-1.13.2.custom/jquery-ui.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/plugins/select2/css/select2.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/adminlte.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+<div class="wrapper">
+
+  <!-- Preloader -->
+  <div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__wobble" src="{% static 'assets/images/logo.png' %}" alt="AdminLTELogo" height="60" width="60">
+  </div>
+
+  {% include 'layouts/navbar.html' %}
+
+  {% include 'layouts/sidebar.html' %}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    {% block content %}
+    
+    {% endblock %}
+  </div>
+  <div class="modal fade" id="modal" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  </div>
+  <div class="modal fade" id="modalsecond" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  </div>
+  <!-- /.content-wrapper -->
+  {% include 'layouts/footer.html' %}
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'assets/plugins/jquery-ui-1.13.2.custom/jquery-ui.min.js' %}"></script>
+<script src="{% static 'assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js' %}"></script>
+<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'assets/plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+<script src="{% static 'assets/plugins/select2/js/select2.full.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'assets/plugins/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'assets/plugins/pdfmake/pdfmake.min.js' %}"></script>
+<script src="{% static 'assets/plugins/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'assets/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+<script src="{% static 'assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js' %}"></script>
+<script src="{% static 'assets/js/adminlte.js' %}"></script>
+<script src="{% static 'assets/js/system/config.js' %}"></script>
+<script src="{% static 'assets/js/system/ajax.js' %}"></script>
+<script>
+  {% if messages %}
+    {% for message in messages %}
+      {% if message.tags == 'success' %}
+        Swal.fire({
+          icon: 'success',
+          title: '¡Éxito!',
+          text: '{{message}}',
+        });
+      {% elif message.tags == 'error'%}
+        Swal.fire({
+          icon: 'error',
+          title: '¡Error!',
+          text: '{{message}}',
+        });
+      {% elif message.tags == 'warning'%}
+        Swal.fire({
+          icon: 'warning',
+          title: '¡Advertencia!',
+          text: '{{message}}',
+        });
+      {% else %}
+        Swal.fire({
+          icon: 'info',
+          title: '¡Atención!',
+          text: '{{message}}',
+        });
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+</script>
+{% block scripts %}
+  
+{% endblock %}
+
+</body>
+</html>

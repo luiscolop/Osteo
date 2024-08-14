@@ -1,0 +1,106 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OSTEO | Inicio de sesión</title>
+  <link rel="icon" type="image/x-icon" href="{% static 'assets/images/favicon.ico' %}">
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'assets/plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="{% static 'assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'assets/css/adminlte.min.css' %}">
+  <!-- SweetAlert2 -->
+  <script src="{% static 'assets/plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+</head>
+<body class="hold-transition login-page" style="background:linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 1.9, 1, 0.0) );">
+  <div class="row">
+    <section style="padding-right: 50px;border-right: solid 2px; border-color: darkgray; text-align: center;">
+      <img src="{% static 'assets/images/logo.png' %}" alt="" width="250">
+      <div class="h1"><b>O</b>STEOSÍNTESIS</div>
+    </section>
+    <section style="padding-left: 50px;">
+      <div class="login-box">
+        <br>
+        <!-- /.login-logo -->
+        <div class="card" style="background-color: rgba(255,255,255, 0.2);">
+          <div class="card-header text-center" style="border-color: transparent;">
+            <a href="#" class="h2">{{ title }}</a>
+          </div>
+          <div class="card-body">
+            <form action="." method="post">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ next }}">
+              <div class="input-group mb-3">
+                {% render_field form.username class+="form-control" placeholder+="Ingrese su nombre de usuario" %}
+                <div class="input-group-append">
+                  <div class="input-group-text bg-navy">
+                    <span class="fas fa-user"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                {% render_field form.password class+="form-control" placeholder+="Ingrese su contraseña" %}
+                <div class="input-group-append">
+                  <div class="input-group-text bg-navy">
+                    <span class="fas fa-lock"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- /.col -->
+                <div class="col-12">
+                  <button type="submit" class="btn bg-navy btn-block">
+                    <i class="fas fa-sign-in-alt"></i>  Iniciar sesión
+                  </button>
+                </div>
+                <!-- /.col -->
+              </div>
+              <br>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+    <!-- /.card-body -->
+    <script type="application/javascript">
+      {% if form.errors %}
+          var errors = '';
+          {% for field in form %}
+              {% for error in field.errors %}
+                  errors += '{{ error }}\n';
+              {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+              errors += '{{ error }}\n';
+          {% endfor %}
+          console.log(errors);
+          Swal.fire({
+            title:'Error!',
+            icon:'error',
+            text:errors,
+          })
+      {% endif %}
+    </script>
+  </div>
+  <!-- /.card -->
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script src="{% static 'assets/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'assets/js/adminlte.min.js' %}"></script>
+
+</body>
+</html>

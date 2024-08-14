@@ -1,0 +1,108 @@
+{% extends 'admin.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Nueva pre solicitud</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'authentication:dashboard' %}">Tablero</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'request:prerequest' %}">Pre solicitudes</a></li>
+            <li class="breadcrumb-item active">Nueva pre solicitud</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="content">
+    <div class="container-fluid">
+      <form action="{% url 'request:prerequest_create' %}" method="post" >
+        {% csrf_token %}
+        <div class="row">
+          <section class="col-md-12">
+            <div class="card card-outline card-success">
+              <div class="card-header">
+                <h3 class="card-title">PRE SOLICITUD</h3>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  {% for field in form.visible_fields %} 
+                    {% if field.name == 'service' or field.name == 'bed' or field.name == 'operation'%}
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="{{ field.name }}">{{ field.label }}</label>
+                        {{ field }}
+                      </div>
+                    </div>
+                    {% elif field.name != 'comment' %}
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="{{ field.name }}">{{ field.label }}</label>
+                        {{ field }}
+                      </div>
+                    </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="col-md-12">
+            <div class="card card-outline card-info">
+              <div class="card-header">
+                <h5 class="card-title">DETALLE DE PRE SOLICITUD</h5>
+              </div>
+              <div class="card-body" id="detail_entry">
+                <div class="form-group">
+                  <label for="lst_material">Materiales</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-briefcase-medical"></i></span>
+                    </div>
+                    <input type="text" name="lst_material" id="lst_material" class="form-control lst-material" style="width:90%" autocomplete="off">
+                  </div>
+                </div>
+                <table id="det_material" class="table table-bordered table-striped" style="width:100%;">
+                  <thead>
+                    <tr>
+                      <th width="10%">opciones</th>
+                      <th>Material</th>
+                      <th width="10%">Cantidad</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th colspan="2" style="text-align: right;">TOTAL MATERIALES</th>
+                      <th>
+                        <input type="number" id="total" style="text-align: center;" class="form-control total_material" value="0" readonly>
+                      </th>
+                    </tr>
+                  </tfoot>
+                </table>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="{{ form.comment.name }}">{{ form.comment.label }}</label>
+                    {{ form.comment }}
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer" id="actions">
+                <button type="button" class="btn btn-outline-danger"><i class="fas fa-times"></i> CANCELAR </button>
+                <button type="button" class="btn btn-outline-success float-right" id="btn-validate-prequest"><i class="fas fa-check"></i> VALIDAR  </button>
+              </div>
+            </div>
+            {% include 'prequest/check.html' %}
+          </section>
+        </div>
+      </form>
+    </div>
+  </section>
+{% endblock content %}
+
+{% block scripts %}
+  <script src="{% static 'assets/js/resources/prequest.js' %}"></script>
+{% endblock %}
