@@ -1,6 +1,3 @@
-from email.policy import default
-from pickle import TRUE
-from pyexpat import model
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -207,8 +204,8 @@ class PreRequest(models.Model):
 
 class PreRequestDetail(models.Model):
   amount=models.IntegerField(verbose_name='Cantidad')
-  material=models.ForeignKey(Material,null=TRUE,blank=True,on_delete=models.PROTECT,verbose_name='Material')
-  lot=models.ForeignKey(Lot,null=TRUE,blank=True,on_delete=models.PROTECT,verbose_name='Lote')
+  material=models.ForeignKey(Material,null=True,blank=True,on_delete=models.PROTECT,verbose_name='Material')
+  lot=models.ForeignKey(Lot,null=True,blank=True,on_delete=models.PROTECT,verbose_name='Lote')
   pre_request=models.ForeignKey(PreRequest,on_delete=models.PROTECT,verbose_name='Pre solicitud')
 
   def __str__(self) -> str:

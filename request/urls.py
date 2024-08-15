@@ -19,6 +19,7 @@ urlpatterns=[
     path('mhouse/<int:pk>/edit/',MedicalHouseUpdateView.as_view(),name='mhouse_edit'),
     path('prerequest/',PreRequestListView.as_view(),name='prerequest'),
     path('prerequest/create/',PreRequestCreateView.as_view(),name='prerequest_create'),
+    path('prerequest/<int:pk>/edit/',PreRequestUpdateView.as_view(),name="prerequest_edit"),
     path('prerequest/<int:pk>/format/',PreRequestPdfView.as_view(),name="prerequest_format"),
     path('prerequest/<int:pk>/validate/',PreRequestValidateView.as_view(),name='prerequest_validate'),
     path('prerequest/<int:pk>/store/',PreRequestStoreView.as_view(),name="prerequest_store"),

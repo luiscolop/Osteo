@@ -22,7 +22,6 @@ class PreRequestForm(ModelForm):
           'id':'procedure',
           'class':'form-control',
           'value':'Osteosíntesis',
-          'readonly':True,
           'placeholder':'Ingrese el procedimiento'
         }
       ),

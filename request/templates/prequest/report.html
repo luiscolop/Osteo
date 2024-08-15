@@ -12,15 +12,6 @@
       font-weight: bold;
       text-align:right;
     }
-    .no-pre{
-      font-size: 14px;
-      line-height: 2.3;
-      display: flex;
-      text-align: right;
-    }
-    .no-pre > span{
-      font-weight: bold;
-    }
 
     .info{
       font-size: 14px;
@@ -70,14 +61,22 @@
     <br/>
     MATERIALES</h1>
   </p>
-  <div class="no-pre">
-    <span>No. de presolicitud:</span><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.number}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-  </div>
+  <table style="font-size: 12px;margin-bottom: 20px;">
+    <tbody>
+      <tr>
+        <td colspan="2" style="font-weight: bold;text-align: right;font-size: 14px;padding-top: 5px;padding-right: 5px;">
+          No. de presolicitud:
+        </td>
+        <td style="width: 20%;text-align: center;border: 1px solid black;padding-top: 5px;">
+          {{ prequest.number}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
   <div class="info">
     <span>Lugar y fecha:</span><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quetzaltenango {{ prequest.date }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <span>No. De afilicación:</span><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.patient.membership }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
     <br>
     <span>Nombres y apellidos del paciente:</span> <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.patient.first_name }} {{ prequest.patient.last_name }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>

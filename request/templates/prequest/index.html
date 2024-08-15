@@ -73,6 +73,10 @@
                             <span class="popuptext">Enviar a bodega</span>
                             <i class="fas fa-arrow-right"></i>
                           </button>
+                          <a class="btn btn-warning popup" href="{% url 'request:prerequest_edit' item.id %}" target="blank">
+                            <span class="popuptext">Imprimir presolicitud</span>
+                            <i class="fas fa-edit"></i>
+                          </a>
                         {% endif %}
 
                         {% if item.status.pk == 2 and request.user|has_group:"Bodega" %}

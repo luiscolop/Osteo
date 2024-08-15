@@ -1,5 +1,5 @@
 $(function(){
-init();
+  
 });
 
 const dtMaterial=$('#det_material').DataTable({
@@ -152,10 +152,6 @@ btnValidatePrequest.on('click',function(e){
   $('#total-materials').val(total);
   $('#modal_valide').modal('show');
 });
-
-function init(){
-  btnValidatePrequest.hide();
-}
 
 function clear_table(){
   var tableHeaderRowCount = 1;

@@ -1,12 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-from django.views.generic import ListView, CreateView, View, TemplateView, DeleteView
+from django.views.generic import ListView, CreateView, View, TemplateView, DeleteView, UpdateView
 from request.forms import *
 from request.models import *
 from django.db import transaction
 from django.urls import reverse_lazy
-from datetime import datetime
+from datetime import date, datetime
 
 import os
 from django.conf import settings
@@ -111,12 +111,10 @@ class PreRequestCreateView(CreateView):
 
           # add detail pre request
           materials = request.POST.getlist('material_id[]')
-          house = request.POST.getlist('house_id[]')
           amounts = request.POST.getlist('amount[]')
           i = 0
           for item in materials:
             get_material = Material.objects.get(pk=item)
-            get_house = MedicalHouse.objects.get(pk=house[i])
             new_detail = PreRequestDetail.objects.create(
               amount = amounts[i],
               material = get_material,
@@ -129,7 +127,7 @@ class PreRequestCreateView(CreateView):
     except Exception as e:
       messages.error(self.request,str(e))
       return HttpResponseRedirect('request:prerequest_create')
-    return HttpResponseRedirect("/prerequest/{}/format/".format(prqid))
+    return HttpResponseRedirect(self.get_success_url())
     
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
@@ -138,6 +136,97 @@ class PreRequestCreateView(CreateView):
     context["prequest"] = 'active'
     return context
 
+
+class PreRequestUpdateView(LoginRequiredMixin,UpdateView):
+  model = PreRequest
+  form_class = PreRequestForm
+  template_name = "prequest/edit.html"
+
+  def get_success_url(self):
+    messages.success(self.request, '¡Pre-solicitud editada con éxito!')
+    return reverse_lazy('request:prerequest')
+  
+  def dispatch(self, request, *args, **kwargs):
+    return super().dispatch(request, *args, **kwargs)
+
+  def post(self, request, *args, **kwargs):
+    prqid=0
+    try:
+      with transaction.atomic():
+        prequest = self.get_object()
+        prqid=prequest.pk
+        operation_str = str(request.POST['operation'])
+        if 'house_id[]' in request.POST:
+          house = request.POST.getlist('house_id[]')
+          prequest.diagnosis = request.POST['diagnosis']
+          prequest.bed = request.POST['bed']
+          prequest.operation = datetime.fromisoformat(operation_str)
+          prequest.comment = request.POST['comment']
+          prequest.stock = True
+          prequest.house.id = house[0]
+          prequest.patient.id = request.POST['patient']
+          prequest.user.id = self.request.user.pk
+          prequest.save()
+          # add detail pre request
+          details=PreRequestDetail.objects.filter(pre_request__id=prequest.pk)
+          details.delete()
+
+          lots= request.POST.getlist('lot_id[]')
+          amounts = request.POST.getlist('amount[]')
+          i = 0
+          for item in lots:
+            get_lot = Lot.objects.get(pk=item)
+            new_detail = PreRequestDetail.objects.create(
+              amount = amounts[i],
+              lot = get_lot,
+              pre_request = prequest
+            )
+            new_detail.save()
+            new_detail.lot.save()
+            i += 1
+        else:# add new pre request
+          prequest.diagnosis = request.POST['diagnosis']
+          prequest.bed = request.POST['bed']
+          prequest.operation = prequest.operation = datetime.fromisoformat(operation_str)
+          prequest.comment = request.POST['comment']
+          prequest.patient.id = request.POST['patient']
+          prequest.house.id = request.POST['house']
+          prequest.user.id = self.request.user.pk
+          prequest.save()
+          
+          # add detail pre request
+          details=PreRequestDetail.objects.filter(pre_request__id=prequest.pk)
+          details.delete()
+          materials = request.POST.getlist('material_id[]')
+          house = request.POST.getlist('house_id[]')
+          amounts = request.POST.getlist('amount[]')
+          i = 0
+          for item in materials:
+            get_material = Material.objects.get(pk=item)
+            new_detail = PreRequestDetail.objects.create(
+              amount = amounts[i],
+              material = get_material,
+              pre_request = prequest
+            )
+            new_detail.save()
+            i += 1
+    except Exception as e:
+      messages.error(self.request,str(e))
+      return HttpResponseRedirect("/prerequest/{}/edit/".format(prqid))
+    return HttpResponseRedirect(self.get_success_url())
+  
+  def get_context_data(self, **kwargs):
+    details=PreRequestDetail.objects.filter(pre_request__id=self.kwargs['pk'])
+    total=0
+    for item in details:
+      total += item.amount
+    context = super().get_context_data(**kwargs)
+    context["title"] = 'Editar presolicitud'
+    context["mprequest"] = 'menu-open'
+    context["prequest"] = 'active'
+    context["details"] = details
+    context["totals"] = total
+    return context
 
 class PreRequestValidateView(LoginRequiredMixin,TemplateView):
   template_name = "prequest/validate.html"

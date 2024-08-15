@@ -1,0 +1,179 @@
+{% extends 'admin.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Editar pre solicitud {{ object.number }}</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{% url 'authentication:dashboard' %}">Tablero</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'request:prerequest' %}">Pre solicitudes</a></li>
+            <li class="breadcrumb-item active">Editar pre solicitud</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="content">
+    <div class="container-fluid">
+      <form action="{% url 'request:prerequest_edit' object.pk %}" method="post" >
+        {% csrf_token %}
+        <div class="row">
+          <section class="col-md-12">
+            <div class="card card-outline card-success">
+              <div class="card-header">
+                <h3 class="card-title">PRE SOLICITUD</h3>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="{{ form.diagnosis.name }}">{{ form.diagnosis.label }}</label>
+                      {{ form.diagnosis }}
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="{{ form.procedure.name }}">{{ form.procedure.label }}</label>
+                      {{ form.procedure }}
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="{{ form.service.name }}">{{ form.service.label }}</label>
+                      {% render_field form.service readonly+="readonly" %}
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="{{ form.bed.name }}">{{ form.bed.label }}</label>
+                      {{ form.bed }}
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="{{ form.operation.name }}">{{ form.operation.label }}</label>
+                      {{ form.operation }}
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="{{ form.patient.name }}">{{ form.patient.label }}</label>
+                      {{ form.patient }}
+                    </div>
+                  </div>
+                  {% if object.stock %}
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="{{ form.house.name }}">{{ form.house.label }}</label>
+                      {% render_field form.house disabled+="disabled" %}
+                    </div>
+                  </div>
+                  {% else %}
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="{{ form.house.name }}">{{ form.house.label }}</label>
+                      {{ form.house }}
+                    </div>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="col-md-12">
+            <div class="card card-outline card-info">
+              <div class="card-header">
+                <h5 class="card-title">DETALLE DE PRE SOLICITUD</h5>
+              </div>
+              <div class="card-body" id="detail_entry">
+                <div class="form-group">
+                  <label for="lst_material">Materiales</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-briefcase-medical"></i></span>
+                    </div>
+                    <input type="text" name="lst_material" id="lst_material" class="form-control lst-material" style="width:90%" autocomplete="off">
+                  </div>
+                </div>
+                <table id="det_material" class="table table-bordered table-striped" style="width:100%;">
+                  <thead>
+                    <tr>
+                      <th width="10%">opciones</th>
+                      <th>Material</th>
+                      <th width="10%">Cantidad</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                    {% if object.stock %}
+                      {% for item in details %}
+                        <tr>
+                          <td>
+                            <button class="btn btn-danger deleteItem" title="Eliminar"> <i class="fas fa-times"></i> </button>
+                          </td>
+                          <td>
+                            <input type="hidden" id="material_name" value="{{item.lot.entry_detail.material.code}} // {{item.lot.entry_detail.material.name}} - {{item.lot.entry_detail.material.description}}">
+                            <input type="hidden" id="house_id" name="house_id[]" value="{{object.house.pk}}"/>
+                            <input type="hidden" name="lot_id[]" id="lot_id" value="{{item.lot.id}}">{{item.lot.entry_detail.material.code}} // {{item.lot.entry_detail.material.name}} - {{item.lot.entry_detail.material.description}}
+                          </td>
+                          <td>
+                            <input type="number" style="text-align: center;" class="form-control" name="amount[]" id="amount" value="{{item.amount}}">
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    {% else %}
+                      {% for item in details %}
+                        <tr>
+                          <td>
+                            <button class="btn btn-danger deleteItem" title="Eliminar"> <i class="fas fa-times"></i> </button>
+                          </td>
+                          <td>
+                            <input type="hidden" id="material_name" value="{{item.material.code}} // {{item.material.name}} - {{item.material.description}}">
+                            <input type="hidden" name="material_id[]" id="material_id" value="{{item.material.pk}}">
+                            {{item.material.code}} // {{item.material.name}} - {{item.material.description}}
+                          </td>
+                          <td>
+                            <input type="number" style="text-align: center;" class="form-control" name="amount[]" id="amount" value="{{item.amount}}">
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    {% endif %}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th colspan="2" style="text-align: right;">TOTAL MATERIALES</th>
+                      <th>
+                        <input type="number" id="total" style="text-align: center;" class="form-control total_material" value="{{totals}}" readonly>
+                      </th>
+                    </tr>
+                  </tfoot>
+                </table>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="{{ form.comment.name }}">{{ form.comment.label }}</label>
+                    {{ form.comment }}
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer" id="actions">
+                <button type="button" class="btn btn-outline-danger"><i class="fas fa-times"></i> CANCELAR </button>
+                <button type="button" class="btn btn-outline-warning float-right" id="btn-validate-prequest"><i class="fas fa-check"></i> ACTUALIZAR </button>
+              </div>
+            </div>
+            {% include 'prequest/check.html' %}
+          </section>
+        </div>
+      </form>
+    </div>
+  </section>
+{% endblock content %}
+
+{% block scripts %}
+  <script src="{% static 'assets/js/resources/prequest.js' %}"></script>
+{% endblock %}
