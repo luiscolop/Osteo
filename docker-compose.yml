@@ -1,0 +1,40 @@
+services:
+  db:
+    image: mysql
+    container_name: "database"
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=N0s3.mysql
+      - MYSQL_DATABASE=db_osteo
+      - MYSQL_HOST=''
+    ports:
+      - 3307:3306
+    command: --init-file /data/application/init.sql
+    volumes:
+      - ./dumps/init.sql:/data/application/init.sql
+      - /tmp/app/mysqld:/var/run/mysqld
+  django_app:
+    image: django_app
+    build:
+      context: ./
+    container_name: "django_cont"
+    command: gunicorn misitio.wsgi:application --bind 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    volumes:
+      - static_data:/app/static
+      - /tmp/app/mysqld:/run/mysqld
+    depends_on:
+      - db
+      
+  nginx:
+    build: ./nginx
+    depends_on:
+      - django_app
+    ports:
+      - 443:443
+    volumes:
+      - static_data:/var/www/html/static
+
+volumes:
+  static_data:

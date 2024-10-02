@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.http import HttpRequest, HttpResponseRedirect
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.db import transaction
 from request.forms import *
 from request.models import *
@@ -16,7 +16,7 @@ class EntryListView(LoginRequiredMixin,ListView):
     return super().dispatch(request, *args, **kwargs)
   
   def get_queryset(self):
-    return Entry.objects.all().order_by('-pk')
+    return Lot.objects.all().order_by('-pk')
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
@@ -25,7 +25,7 @@ class EntryListView(LoginRequiredMixin,ListView):
     context["entry"] = 'active'
     return context
   
-class EntryCreateView(CreateView):
+class EntryCreateView(LoginRequiredMixin,CreateView):
   model = Entry
   form_class = EntryForm
   template_name = "entry/create.html"
@@ -112,4 +112,36 @@ class EntryCreateView(CreateView):
     context["title"] = 'Nuevo ingreso'
     context["minventory"] = 'menu-open'
     context["entry"] = 'active'
+    return context
+
+
+class EntryDeleteView(LoginRequiredMixin,DeleteView):
+  model = Entry
+  template_name = "entry/inactive.html"
+
+  def get_success_url(self):
+    messages.success(self.request, '¡Ingreso inactivo!')
+    return reverse_lazy('request:entry')
+  
+  def post(self, request, *args, **kwargs):
+    try:
+      entry = self.get_object()
+      lots = Lot.objects.filter(entry_detail__entry__id=entry.pk)
+      for item in lots:
+        lot = Lot.objects.get(pk=item.pk)
+        new_status = Status.objects.get(pk=20)
+        lot.status = new_status
+        lot.save()
+      new_entry_status = Status.objects.get(pk=17)
+      entry_update = Entry.objects.get(pk=entry.pk)
+      entry_update.status = new_entry_status
+      entry_update.save()
+    except Exception as e:
+      messages.error(self.request,str(e))
+      return HttpResponseRedirect('request:entry')
+    return HttpResponseRedirect(self.get_success_url())
+  
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context["title"] = 'Inactivar ingreso'
     return context

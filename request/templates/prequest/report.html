@@ -8,105 +8,180 @@
       size: 8.5in 11in;
       margin: 1cm;
     }
-    .format-number{
+    body{
+      line-height: 1.0em;
+    }
+    table {
+      width: 100%;
+    }
+    td{
+      padding-right: 0;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      padding-left: 5x;
+    }
+    .item{
       font-weight: bold;
-      text-align:right;
-    }
-
-    .info{
       font-size: 14px;
-      line-height: 2.3;
+      padding-top: 5px;
+      text-align: left;
     }
-    .info > span{
+    .data{
+      text-align: center;
+      border-bottom: 1px solid black;
+      text-transform: uppercase;
+    }
+    .centered {
+      text-align: center;
+    }
+    .bold {
       font-weight: bold;
     }
-
-    #materials thead tr th {
-      font-size: 14px;
-      text-align:center;
-      border-top:1px solid black;
-      border-left: 1px solid black;
-      border-right: 1px solid black;
-      border-bottom:1px solid black;
-      padding-top:4px;
+    .right {
+      text-align: right;
     }
-
-    #materials thead tr{
-      margin-bottom:0;
-      padding-bottom:0;
+    .titulo {
+      text-align: center;
+      font-size: 11pt;
+      margin-top: 0px;
+      margin-bottom: 15px;
     }
-
-    #materials tbody tr{
-      font-size: 12px;
-      text-align:center;
-      border-top:1px solid black;
-      border-left: 1px solid black;
-      border-right: 1px solid black;
-      border-bottom:1px solid black;
-      padding:5px 5px 5px 5px;
+    .subtitulo {
+      text-align: center;
+      font-size: 10pt;
+      padding-bottom: 25px;
+      margin-bottom: 15px;
     }
-
-    #materials tfoot tr th {
-      text-align:right;
-      border-bottom:1px solid black;
-      border-top:1px solid black;
-      padding-top:4px;
+    .logo{
+      display: flex;
+      position: fixed;
+      margin-top: -30px;
+      margin-left: -10px;
+      width: 75px;
+      height: 75px;
+    }
+    .materials{
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+    }
+    .materials th{
+      padding: 5px 5px 5px 5px;
+      border: 1px solid black;
+      font-size: 10px;
+    }
+    .materials td{
+      padding: 5px 5px 5px 5px;
+      border: 1px solid black;
+      height: 15px;
+      font-size: 9px;
+    }
+    .foter td{
+      line-height: 1.0em;
+      height: 10px;
     }
   </style>
 </head>
 <body>
-  <p class="head"> 
-    <div class="format-number"> SPS-987 </div>
-    <h1 style="text-align: center;">PRESOLICITUD DE DISPOSITIVOS DE FIJACIÓN INTERNA O EXTERNA Y OTROS 
+  <div style="text-align: right;font-size: 10px;"> SPS-987 </div>
+  <img class="logo" src="{{ imagen }}" alt="">
+  <h1 class="titulo">
+    PRESOLICITUD DE DISPOSITIVOS DE FIJACIÓN INTERNA O EXTERNA Y OTROS 
     <br/>
-    MATERIALES</h1>
-  </p>
-  <table style="font-size: 12px;margin-bottom: 20px;">
+    MATERIALES
+  </h1>
+  <table style="font-size: 11px;margin-bottom: 20px;">
     <tbody>
       <tr>
-        <td colspan="2" style="font-weight: bold;text-align: right;font-size: 14px;padding-top: 5px;padding-right: 5px;">
+        <td colspan="6" class="item" style="text-align: right;padding-right: 5px;">
           No. de presolicitud:
         </td>
         <td style="width: 20%;text-align: center;border: 1px solid black;padding-top: 5px;">
           {{ prequest.number}}
         </td>
       </tr>
+      <tr>
+        <td class="item" style="width: 15%;">
+          Lugar y Fecha: 
+        </td>
+        <td colspan="4" class="data">
+          Quetzaltenango {{ prequest.date }}
+        </td>
+        <td class="item" style="width: 20%;">
+          No. De afilicación:
+        </td>
+        <td class="data">
+          {{ prequest.patient.membership }}
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3" class="item" style="width: 35%;">
+          Nombres y apellidos del paciente:
+        </td>
+        <td colspan="4" class="data">
+          {{ prequest.patient.first_name }} {{ prequest.patient.last_name }}
+        </td>
+      </tr>
+      <tr>
+        <td class="item">
+          Diagnóstico:
+        </td>
+        <td colspan="6" class="data">
+          {{ fpdiagnosis }}
+        </td>
+      </tr>
+      <tr>
+        <td colspan="7" class="data" style="height: 18px;">
+          {{ spdiagnosis }}
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="item" style="width: 27%;">
+          Procedimiento quirúrgico:
+        </td>
+        <td colspan="5" class="data">
+          {{ fpprocedure }}
+        </td>
+      </tr>
+      <tr>
+        <td colspan="7" class="data" style="height: 18px;">
+          {{ spprocedure }}
+        </td>
+      </tr>
+      <tr>
+        <td class="item">
+          Servicio o sala
+        </td>
+        <td class="data">
+          {{ prequest.service }}
+        </td>
+        <td colspan="2" class="item" style="width: 15%;">
+          No. de cama
+        </td>
+        <td class="data">
+          {{ prequest.bed }}
+        </td>
+        <td class="item">
+          Fecha de operación
+        </td>
+        <td class="data">
+          {{ prequest.operation }}
+        </td>
+      </tr>
     </tbody>
   </table>
-  <div class="info">
-    <span>Lugar y fecha:</span><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quetzaltenango {{ prequest.date }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <span>No. De afilicación:</span><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.patient.membership }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-    <br>
-    <span>Nombres y apellidos del paciente:</span> <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.patient.first_name }} {{ prequest.patient.last_name }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-    <br>
-    <span>Diagnóstico:</span> <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.diagnosis }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-    <br>
-    <span>Procedimiento quirúrgico:</span> <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.procedure }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-    <br>
-    <span>Servicio o sala:</span> <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.service }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <span>No. de cama:</span> <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.bed }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <span>Fecha de operación:</span> <u>{{ prequest.operation }}</u>
-  </div>
-  <br>
-  <table id="materials">
-    <thead>
-      <tr>
-        <th width="15%">CÓDIGO</th>
-        <th width="70%">DESCRIPCIÓN</th>
-        <th>CANTIDAD</th>
-      </tr>
-    </thead>
-    <tbody>
-      
+  <table class="materials">
+    <tr>
+      <th width="15%">CÓDIGO</th>
+      <th width="70%">DESCRIPCIÓN</th>
+      <th>CANTIDAD</th>
+    </tr>
+    <tbody >
       {% if prequest.stock %}
         {% for item in detail %}
           <tr>
             <td>{{ item.lot.entry_detail.material.code }}</td>
-            <td>{{ item.lot.entry_detail.material.name }} - {{ item.lot.entry_detail.material.description }}</td>
+            <td>{{ item.lot.entry_detail.material.name }} - {{ item.lot.entry_detail.material.description }} {{ item.lot.entry_detail.material.unit.name }}</td>
             <td style="text-align:center;">{{ item.amount }}</td>
           </tr>
         {% endfor %}
@@ -114,103 +189,58 @@
         {% for item in detail %}
           <tr>
             <td>{{ item.material.code }}</td>
-            <td>{{ item.material.name }} - {{ item.material.description }}</td>
+            <td>{{ item.material.name }} - {{ item.material.description }} {{ item.material.unit.name }}</td>
             <td style="text-align:center;">{{ item.amount }}</td>
           </tr>
         {% endfor %}
       {% endif %}
-        
+      <tr>
+        <td></td>
+        <td>
+          {% if prequest.stock %}
+            STOCK
+          {% endif %}
+        </td>
+        <td></td>
+      </tr>
+      {% for row in blank %}
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      {% endfor %}
     </tbody>
   </table>
-  <br/>
-  <div class="info">
-    <span>Observaciones:</span> <u>{{ prequest.comment }}</u>
-  </div>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <u>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  </u>
-  <br>
-  <span>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Nombres y Apellidos del Jefe de Servicio de
-    <br> 
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Enfermería o Enfermera/o de Turno
-  </span>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <u>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  </u>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <u>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    </u>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <br/>
-  <span>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Firma del Jefe de Servicio de Enfermería de
-  </span>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span style="text-align: right;">Firma y sello del Jefe de Servicio</span>
-  <br/>
-  <span>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Enfermera/o de Turno y Sello de Servicio
-  </span>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span>Médico o Especialista</span>
+  <table class="foter" style="font-size: 12px;">
+    <tr>
+      <td style="width: 15%;">Observaciones:</td>
+      <td colspan="4"><u>{{ prequest.comment }}</u></td>
+    </tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr>
+      <td colspan="2" style="border-top: 1px solid black;text-align: center;width: 35%;">
+        Nombres y Apellidos del Jefe de Servicio de Enfermería o Enfermera/o de Turno
+      </td>
+    </tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr>
+      <td colspan="2" style="border-top: 1px solid black;text-align: center;width: 25%;">
+        Firma del Jefe de Servicio de Enfermería de Firma y sello del Jefe de Servicio
+      </td>
+      <td style="width: 30%;">
+      </td>
+      <td colspan="2" style="border-top: 1px solid black;text-align: center;width: 55%;">
+        Enfermera/o de Turno y Sello de Servicio Médico o Especialista
+      </td>
+    </tr>
+  </table>
 </body>
 </html>

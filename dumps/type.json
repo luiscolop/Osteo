@@ -1,0 +1,1 @@
+[{"model": "request.type", "pk": 1, "fields": {"name": "Pre solicitud"}}, {"model": "request.type", "pk": 2, "fields": {"name": "Material"}}, {"model": "request.type", "pk": 3, "fields": {"name": "Hoja de consumo"}}, {"model": "request.type", "pk": 4, "fields": {"name": "Ingreso"}}, {"model": "request.type", "pk": 5, "fields": {"name": "Lote"}}]

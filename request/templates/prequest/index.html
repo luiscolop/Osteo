@@ -48,15 +48,16 @@
                     <tr>
                       <td>{{ item.number }}</td>
                       <td>{{ item.date }}</td>
-                      <td>{{ item.patient.first_name }} {{ item.patient.last_name}}</td>
+                      <td>{{ item.patient }}</td>
                       <td>{{ item.house }}</td>                 
                       <td>{{ item.user.username }}</td>
                       <td class="text-center">
                         <span class="badge {{ item.status.color }}">{{ item.status.name }}</span>
+                        {% if item.abort_user is not None and item.status == 5 %}
+                          <span>({{ item.abort_user }})</span>
+                        {% endif %}
                       </td>
                       <td class="text-center">
-                        {% comment %} <button class="btn btn-info" onclick="viewSellDetail({{ item.id }});"><i class="fas fa-eye"></i></button> {% endcomment %}
-                        
                         {% if item.status.pk != 5 and item.status.pk != 4 and item.status.pk != 13 and item.status.pk != 14 and item.status.pk != 15 and request.user|has_group:"Medicos" %}
                           <a class="btn btn-ligth bg-gray popup" href="{% url 'request:prerequest_format' item.id %}" target="blank">
                             <span class="popuptext">Imprimir presolicitud</span>
@@ -66,54 +67,55 @@
                             <span class="popuptext">Anular Presolicitud</span>
                             <i class="fas fa-times"></i>
                           </button>
-                        {% endif %}
-                        
+                        {% endif %}                        
                         {% if item.status.pk == 1 and request.user|has_group:"Medicos" %}
                           <button class="btn btn-success popup" onclick="openModal(`{% url 'request:prerequest_validate' item.id %}`)">
                             <span class="popuptext">Enviar a bodega</span>
                             <i class="fas fa-arrow-right"></i>
                           </button>
                           <a class="btn btn-warning popup" href="{% url 'request:prerequest_edit' item.id %}" target="blank">
-                            <span class="popuptext">Imprimir presolicitud</span>
+                            <span class="popuptext">Editar presolicitud</span>
                             <i class="fas fa-edit"></i>
                           </a>
                         {% endif %}
-
                         {% if item.status.pk == 2 and request.user|has_group:"Bodega" %}
                           <button class="btn btn-warning popup" onclick="openModal(`{% url 'request:prerequest_validate' item.id %}`)">
                             <span class="popuptext">Enviar a compras</span>
                             <i class="fas fa-file-signature"></i>
                           </button>
-                        {% endif %}
-                        
+                          <button class="btn btn-dark popup" onclick="openModal(`{% url 'request:prerequest_decline' item.id %}`)">
+                            <span class="popuptext">Rechazar Presolicitud</span>
+                            <i class="fas fa-handshake-slash"></i>
+                          </button>
+                        {% endif %}                        
                         {% if item.status.pk == 3 and request.user|has_group:"Compras" %}  
                           <button class="btn btn-info popup" onclick="openModal(`{% url 'request:prerequest_validate' item.id %}`)">
                             <span class="popuptext">Recibir</span>
                             <i class="fas fa-fist-raised"></i>
                           </button>
-                        {% endif %}
-                        
+                          <button class="btn btn-dark popup" onclick="openModal(`{% url 'request:prerequest_decline' item.id %}`)">
+                            <span class="popuptext">Rechazar Presolicitud</span>
+                            <i class="fas fa-handshake-slash"></i>
+                          </button>
+                        {% endif %}                        
                         {% if item.status.pk == 12 and request.user|has_group:"Enfermeria" %}
                           <a class="btn btn-ligth bg-teal popup" href="{% url 'request:uptake_create' item.id %}" target="blank">
                             <span class="popuptext">Consumir</span>
                             <i class="fas fa-file-download"></i>
                           </a>
-                        {% endif %}
-                        
+                        {% endif %}                        
                         {% if item.status.pk == 13 and request.user|has_group:"Enfermeria" %}
                         <button class="btn btn-ligth bg-lightblue popup" onclick="openModal(`{% url 'request:uptake_validate' item.id %}`)">
                           <span class="popuptext">Enviar consumo a bodega</span>
                           <i class="fas fa-paper-plane"></i>
                         </button>
                         {% endif %}
-
                         {% if item.status.pk == 14 and request.user|has_group:"Bodega" %}
                           <button class="btn btn-ligth bg-navy popup" onclick="openModal(`{% url 'request:uptake_validate' item.id %}`)">
                             <span class="popuptext">Enviar consumo a compras</span>
                             <i class="fas fa-file-export"></i>
                           </button>
                         {% endif %}
-
                         {% if item.status.pk == 15 and request.user|has_group:"Compras" %}
                           <button class="btn btn-ligth bg-olive popup" onclick="openModal(`{% url 'request:uptake_validate' item.id %}`)">
                             <span class="popuptext">Pagar</span>

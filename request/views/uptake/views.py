@@ -8,13 +8,6 @@ from django.db import transaction
 from django.urls import reverse_lazy
 from datetime import datetime
 
-import os
-from django.conf import settings
-from django.http import HttpResponse
-from django.template.loader import get_template
-from xhtml2pdf import pisa
-from django.contrib.staticfiles import finders
-
 class UptakeListView(LoginRequiredMixin,ListView):
   model = Uptake
   template_name = "uptake/index.html"
@@ -73,6 +66,7 @@ class UptakeCreateView(LoginRequiredMixin,CreateView):
           user = self.request.user,
         )
         new_uptake.save()
+        get_prequest.taking()
 
         # add detail pre request
         materials = request.POST.getlist('material_id[]')
@@ -110,10 +104,11 @@ class UptakeValidateView(LoginRequiredMixin,TemplateView):
 
   def get_context_data(self, **kwargs):
     prequest = PreRequest.objects.get(pk=self.kwargs['pk'])
-    uptake = Uptake.objects.get(pre_request__id=prequest.pk)
+    uptake = Uptake.objects.filter(pre_request__id=prequest.pk).first()
     detail = UptakeDetail.objects.filter(uptake__id=uptake.pk)
     option = ""
     more = False
+
     if prequest.status.pk == 13:
       option = "/uptake/{}/store/".format(prequest.pk)
     elif prequest.status.pk == 14:
@@ -170,22 +165,3 @@ class UptakePaidView(LoginRequiredMixin,View):
       messages.error(self.request,str(e))
       return HttpResponseRedirect('request:prerequest')
     return HttpResponseRedirect(self.get_success_url())
-  
-class UptakePdfView(LoginRequiredMixin,View):
-  def get(self, request, *args, **kwargs):
-    template = get_template('uptake/report.html')
-    uptake = Uptake.objects.get(pk=self.kwargs['pk'])
-    prequest = PreRequest.objects.get(pk=uptake.pre_request.pk)
-    context = {
-      'prequest': prequest,
-      'uptake' : uptake,
-      'detail': UptakeDetail.objects.filter(uptake__id=self.kwargs['pk']),
-    }
-    html = template.render(context)
-    response = HttpResponse(content_type = 'application/pdf')
-    prequest.taking()
-    # response['Content-Disposition'] = 'attachment; filename=reportedeventas.pdf'
-    pisaStatus = pisa.CreatePDF(html, dest = response)
-    if pisaStatus.err:
-      return HttpResponse('Ocurrieron algunos errores <pre>'+ html +'</pre>')
-    return response

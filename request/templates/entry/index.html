@@ -37,24 +37,27 @@
                     <th>SIAF</th>
                     <th>PPR</th>
                     <th>Estado</th>
+                    <th>Stock</th>
                     <th>Opciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for item in object_list %}
                     <tr>
-                      <td>{{ item.code }}</td>
-                      <td>{{ item.date }}</td>
-                      <td>{{ item.date_award }}</td>
-                      <td>{{ item.nog }}</td>
-                      <td>{{ item.house.name }}</td>
-                      <td>{{ item.siaf }}</td>
-                      <td>{{ item.ppr }}</td>
-                      <td>{{ item.status.name }}</td>
+                      <td>{{ item.entry_detail.entry.code }}</td>
+                      <td>{{ item.entry_detail.entry.date }}</td>
+                      <td>{{ item.entry_detail.entry.date_award }}</td>
+                      <td>{{ item.entry_detail.entry.nog }}</td>
+                      <td>{{ item.entry_detail.entry.house.name }}</td>
+                      <td>{{ item.entry_detail.entry.siaf }}</td>
+                      <td>{{ item.entry_detail.entry.ppr }}</td>
+                      <td>{{ item.entry_detail.entry.status.name }}</td>
+                      <td>{{ item.stock }}</td>
                       <td class="text-center">
                         <button class="btn btn-info"><i class="fas fa-eye"></i></button>
-                        {% comment %} <button class="btn btn-warning" onclick="openModal(`{% url 'request:entry_edit' item.pk %}`)"><i class="fas fa-edit"></i></button> {% endcomment %}
-                        <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                        {% if item.entry_detail.entry.status.id != 17 %}
+                          <button class="btn btn-danger" onclick="openModal(`{% url 'request:entry_inactive' item.entry_detail.entry.pk %}`)"><i class="fas fa-trash"></i></button>
+                        {% endif %}
                       </td>
                     </tr>
                   {% endfor %}

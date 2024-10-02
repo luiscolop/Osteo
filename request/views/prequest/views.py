@@ -6,14 +6,7 @@ from request.forms import *
 from request.models import *
 from django.db import transaction
 from django.urls import reverse_lazy
-from datetime import date, datetime
-
-import os
-from django.conf import settings
-from django.http import HttpResponse
-from django.template.loader import get_template
-from xhtml2pdf import pisa
-from django.contrib.staticfiles import finders
+from datetime import datetime
 
 class PreRequestListView(LoginRequiredMixin,ListView):
   model = PreRequest
@@ -94,7 +87,9 @@ class PreRequestCreateView(CreateView):
             i += 1
           prqid=new_prerequest.pk
         else:# add new pre request
-          get_house = MedicalHouse.objects.get(pk=request.POST['house'])
+          get_house = None
+          if request.POST['house'] != '':
+            get_house = MedicalHouse.objects.get(pk=request.POST['house'])
           new_prerequest = PreRequest.objects.create(
             number = self.generate_number(),
             diagnosis = request.POST['diagnosis'],
@@ -135,7 +130,6 @@ class PreRequestCreateView(CreateView):
     context["mprequest"] = 'menu-open'
     context["prequest"] = 'active'
     return context
-
 
 class PreRequestUpdateView(LoginRequiredMixin,UpdateView):
   model = PreRequest
@@ -185,6 +179,9 @@ class PreRequestUpdateView(LoginRequiredMixin,UpdateView):
             new_detail.lot.save()
             i += 1
         else:# add new pre request
+          house = None
+          if request.POST['house'] is not None:
+            house = request.POST['house']
           prequest.diagnosis = request.POST['diagnosis']
           prequest.bed = request.POST['bed']
           prequest.operation = prequest.operation = datetime.fromisoformat(operation_str)
@@ -320,6 +317,7 @@ class PreRequestAbortingView(LoginRequiredMixin,DeleteView):
     try:
       prequest = PreRequest.objects.get(pk=self.kwargs['pk'])
       prequest.abort_comment = self.request.POST['abort_comment']
+      prequest.abort_user = self.request.user.username
       prequest.abort()
     except Exception as e:
       messages.error(self.request,str(e))
@@ -331,19 +329,33 @@ class PreRequestAbortingView(LoginRequiredMixin,DeleteView):
     context["title"] = 'Anular pre solicitud'
     return context
   
-class PreRequestPdfView(LoginRequiredMixin,View):
-  def get(self, request, *args, **kwargs):
-    template = get_template('prequest/report.html')
-    prequest = PreRequest.objects.get(pk=self.kwargs['pk'])
-    print(prequest.stock)
-    context = {
-      'prequest': prequest,
-      'detail': PreRequestDetail.objects.filter(pre_request__id=self.kwargs['pk']),
-    }
-    html = template.render(context)
-    response = HttpResponse(content_type = 'application/pdf')
-    # response['Content-Disposition'] = 'attachment; filename=reportedeventas.pdf'
-    pisaStatus = pisa.CreatePDF(html, dest = response)
-    if pisaStatus.err:
-      return HttpResponse('Ocurrieron algunos errores <pre>'+ html +'</pre>')
-    return response
+class PreRequestDeclineView(LoginRequiredMixin,DeleteView):
+  model = PreRequest
+  template_name = "prequest/decline.html"
+
+  def get_success_url(self):
+    messages.warning(self.request, '¡Pre-solicitud rechazada!')
+    return reverse_lazy('request:prerequest')
+  
+  def post(self, request, *args, **kwargs):
+    try:
+      prequest = PreRequest.objects.get(pk=self.kwargs['pk'])
+      prequest.decline_comment = self.request.POST['decline_comment']
+      prequest.save()
+      status = prequest.status.pk
+      if status == 2:
+        prequest.decline()
+      elif status == 3:
+        prequest.store()
+      elif status == 12:
+        prequest.shopping()
+
+    except Exception as e:
+      messages.error(self.request,str(e))
+      return HttpResponseRedirect('request:prerequest')
+    return HttpResponseRedirect(self.get_success_url())
+  
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context["title"] = 'Rechazar pre solicitud'
+    return context

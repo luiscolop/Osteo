@@ -127,7 +127,7 @@
                           {{ item.material.code }} / {{ item.material.name }} - {{ item.material.description }}
                         </td>
                         <td>
-                          <input type="number" style="text-align: center;" class="form-control" name="amount[]" id="amount" value="0" max="{{ item.amount }}" onchange="validateRows();">
+                          <input type="number" style="text-align: center;" class="form-control" name="amount[]" id="amount" min="0" value="0" max="{{ item.amount }}" onchange="validateRows();">
                         </td>
                       </tr>
                       {% endfor %}
@@ -137,7 +137,7 @@
                     <tr>
                       <th colspan="2" style="text-align: right;">TOTAL MATERIALES</th>
                       <th>
-                        <input type="number" id="total" style="text-align: center;" class="form-control total_material" value="0" readonly>
+                        <input type="number" id="total" style="text-align: center;" class="form-control total_material" min="0" value="0" readonly>
                       </th>
                     </tr>
                   </tfoot>

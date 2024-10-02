@@ -147,12 +147,19 @@ class PreRequest(models.Model):
   comment=models.CharField(max_length=100,blank=True,null=True,verbose_name='Observaciones')
   number_siaf=models.CharField(max_length=20,blank=True,null=True,verbose_name='SIAF')
   abort_comment=models.CharField(max_length=100,blank=True,null=True,verbose_name='Justificación')
+  abort_user=models.CharField(max_length=25,blank=True,null=True,verbose_name='Usuario quien anula')
+  decline_comment=models.CharField(max_length=100,blank=True,null=True,verbose_name='Justificación')
   stock=models.BooleanField(default=False,verbose_name='De stock')
   patient=models.ForeignKey(Patient,on_delete=models.PROTECT,verbose_name='Paciente')
-  house=models.ForeignKey(MedicalHouse,on_delete=models.PROTECT,verbose_name='Casa médica')
+  house=models.ForeignKey(MedicalHouse,on_delete=models.PROTECT,null=True,blank=True,verbose_name='Casa médica')
   user=models.ForeignKey(User,on_delete=models.PROTECT,verbose_name='Usuario')
   status=models.ForeignKey(Status,default=1,on_delete=models.PROTECT,verbose_name='Estado')
   
+  def decline(self):
+    new_status = Status.objects.get(pk=1)
+    self.status = new_status
+    self.save()
+
   def store(self):
     new_status = Status.objects.get(pk=2)
     self.status = new_status

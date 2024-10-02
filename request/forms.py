@@ -8,7 +8,7 @@ class PreRequestForm(ModelForm):
   class Meta:
     model=PreRequest
     fields = '__all__'
-    exclude= ('number','date','number_siaf','abort_comment','stock','user','status',)
+    exclude= ('number','date','number_siaf','abort_comment','abort_user','decline_comment','stock','user','status',)
     widgets={
       'diagnosis': TextInput(
         attrs={

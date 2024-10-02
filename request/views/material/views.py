@@ -46,7 +46,7 @@ class MaterialSelectView(LoginRequiredMixin,View):
       term=request.GET.get('q')
       materials=Material.objects.filter(Q(code__icontains=term) | Q(name__icontains=term) | Q(description__icontains=term))
       lots=Lot.objects.filter(Q(entry_detail__material__code__icontains=term) | Q(entry_detail__material__name__icontains=term) | 
-        Q(entry_detail__material__description__icontains=term)).filter(stock__gt=0)
+        Q(entry_detail__material__description__icontains=term)).filter(stock__gt=0).filter(status__id=19)
       for item in materials:
         lot = next(filter(lambda material:material.entry_detail.material.id == int(item.pk), lots), None)
         print(lot)
@@ -60,7 +60,7 @@ class MaterialSelectView(LoginRequiredMixin,View):
           }
           data.append(datos)
         else:
-          lotsearch = Lot.objects.filter(entry_detail__material__id=item.pk)
+          lotsearch = Lot.objects.filter(entry_detail__material__id=item.pk).filter(status__id=19)
           for lot in lotsearch:
             datos={
               'type':'stock',

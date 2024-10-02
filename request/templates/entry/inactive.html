@@ -1,20 +1,20 @@
 <div class="modal-dialog" style="min-height: calc(100vh - 60px);display: flex;flex-direction: column;
 justify-content: center;overflow: auto;@media(max-width: 768px) {  min-height: calc(100vh - 20px);}">
   <div class="modal-content">
-    <form id="formOrderDelete" action="{% url 'request:prerequest_delete' object.id %}" method="post">
+    <form id="formOrderDelete" action="{% url 'request:entry_inactive' object.id %}" method="post">
       <div class="modal-body" style="text-align: center;">
         <div class="swal2-icon swal2-warning swal2-icon-show" style="display: flex;">
           <div class="swal2-icon-content">!</div>
         </div>
         <h2 class="swal2-title">{{ title }}</h2>
         {% csrf_token %}
-        <div class="swal2-html-container"> ¿Estas seguro de anular la presolicitud <b>{{ object.number }}</b>?</div>
-        <div class="col-md-12">
+        <div class="swal2-html-container"> ¿Estas seguro de inactivar el ingreso ?</div>
+        <!-- <div class="col-md-12">
           <div class="form-group">
             <label>Justificación</label>
             <input type="text" id="abort_comment" name="abort_comment" required class="form-control"/>
           </div>
-        </div>
+        </div> -->
         <div class="swal2-actions" style="display: flex;">
           <button type="submit" class="swal2-confirm swal2-styled" style="display: inline-block;">Si, Anular</button>
           <button type="button" class="swal2-cancel swal2-styled swal2-default-outline" style="display: inline-block; background-color: rgb(221, 51, 51);" data-dismiss="modal">Cancel</button>

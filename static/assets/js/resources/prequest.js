@@ -91,7 +91,7 @@ function addItemToDetail(id,type){
             'DT_RowId':data[0].id,
             '0':'<button class="btn btn-danger deleteItem" title="Eliminar"> <i class="fas fa-times"></i> </button>',
             '1':`<input type="hidden" id="material_name" value="${data[0].code} // ${data[0].name} - ${data[0].description}"><input type="hidden" id="house_id" name="house_id[]" value="${data[0].house}"/><input type="hidden" name="lot_id[]" id="lot_id" value="${data[0].id}">`+data[0].code+' // '+data[0].name+' - '+data[0].description,
-            '2':'<input type="number" style="text-align: center;" class="form-control" name="amount[]" id="amount" value="1">',
+            '2':'<input type="number" style="text-align: center;" class="form-control" name="amount[]" id="amount" min="0" value="1">',
           }).draw();
           selectHouse.val(data[0].house).change();
           selectHouse.prop('disabled',true);
@@ -101,7 +101,7 @@ function addItemToDetail(id,type){
             'DT_RowId':data[0].id,
             '0':'<button class="btn btn-danger deleteItem" title="Eliminar"> <i class="fas fa-times"></i> </button>',
             '1':`<input type="hidden" id="material_name" value="${data[0].code} // ${data[0].name} - ${data[0].description}"><input type="hidden" name="material_id[]" id="material_id" value="${data[0].id}">`+data[0].code+' // '+data[0].name+' - '+data[0].description,
-            '2':'<input type="number" style="text-align: center;" class="form-control" name="amount[]" id="amount" value="1">',
+            '2':'<input type="number" style="text-align: center;" class="form-control" name="amount[]" id="amount" min="0" value="1">',
           }).draw();
         }
         let rowNode = dtMaterial.row(`#${data[0].id}`).node();
@@ -124,6 +124,13 @@ dtMaterial.on('click','button.deleteItem',function(e){
   validateRows();
   validateRowsDetail();
   $('.lst-material').focus();
+});
+
+dtMaterial.on('input','input#amount',function(e){
+  if($(this).val() != ''){
+    validateRows();
+    validateRowsDetail();
+  }
 });
 
 btnValidatePrequest.on('click',function(e){

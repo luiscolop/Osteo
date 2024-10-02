@@ -5,7 +5,8 @@ from request.views.mhouse.views import MedicalHouseListView, MedicalHouseCreateV
 from request.views.material.views import MaterialSelectView, MaterialListView, MaterialCreateView, MaterialUpdateView
 from request.views.prequest.views import *
 from request.views.uptake.views import *
-from request.views.entry.views import EntryListView, EntryCreateView
+from request.views.entry.views import EntryListView, EntryCreateView, EntryDeleteView
+from request.views.report.views import PreRequestPdfView, UptakePdfView
 
 app_name= 'request'
 
@@ -26,6 +27,7 @@ urlpatterns=[
     path('prerequest/<int:pk>/shopping/',PreRequestShoppingView.as_view(),name="prerequest_shopping"),
     path('prerequest/<int:pk>/receive/',PreRequestReceiveView.as_view(),name="prerequest_receive"),
     path('prerequest/<int:pk>/delete/',PreRequestAbortingView.as_view(),name='prerequest_delete'),
+    path('prerequest/<int:pk>/decline/',PreRequestDeclineView.as_view(),name='prerequest_decline'),
     path('uptake/',UptakeListView.as_view(),name='uptake'),
     path('uptake/<int:pk>/',UptakeCreateView.as_view(),name='uptake_create'),
     path('uptake/<int:pk>/format/',UptakePdfView.as_view(),name="uptake_format"),
@@ -35,6 +37,7 @@ urlpatterns=[
     path('uptake/<int:pk>/paid/',UptakePaidView.as_view(),name="uptake_paid"),
     path('entry/',EntryListView.as_view(),name='entry'),
     path('entry/create/',EntryCreateView.as_view(),name='entry_create'),
+    path('entry/<int:pk>/inactive/',EntryDeleteView.as_view(),name='entry_inactive'),
     path('material/',MaterialListView.as_view(),name='material'),
     path('material/create/',MaterialCreateView.as_view(),name='material_create'),
     path('material/<int:pk>/edit/',MaterialUpdateView.as_view(),name='material_edit'),

@@ -76,8 +76,8 @@ $(function(){
             '0':'<button class="btn btn-danger deleteItem" title="Eliminar"> <i class="fas fa-times"></i> </button>',
             '1':`<input type="hidden" id="material_name" value="${data[0].code+' / '+data[0].name+' - '+data[0].description}"><input type="hidden" name="material_id[]" id="material_id" value="${data[0].id}">`+data[0].code+' / '+data[0].name+' - '+data[0].description,
             '2':'<input type="number" class="form-control" style="text-align: center;" name="price_purchase[]" id="price_purchase" step="0.01" value="0">',
-            '3':'<input type="number" class="form-control" style="text-align: center;" name="ammount[]" id="ammount" value="0">',
-            '4':'<input type="number" class="form-control" style="text-align: center;" name="subtotal[]" id="subtotal" value="0" step="0.01" readonly>',
+            '3':'<input type="number" class="form-control" style="text-align: center;" name="ammount[]" id="ammount" min="0" value="0">',
+            '4':'<input type="number" class="form-control" style="text-align: center;" name="subtotal[]" id="subtotal" value="0" min="0" step="0.01" readonly>',
           }).draw();
           let rowNode = dtEntry.row(`#${data[0].id}`).node();
           $('#ammount',rowNode).on('keypress',function(e){
@@ -124,7 +124,14 @@ $(function(){
     validateRowsDetail();
     $('.lst-material').focus();
   });
-  
+
+  dtEntry.on('input','input#ammount',function(e){
+    if($(this).val() != ''){
+      validateRows();
+      validateRowsDetail();
+    }
+  });
+
   function init(){
     btnSaveEntry.hide();
   }

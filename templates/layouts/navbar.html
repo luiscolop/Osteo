@@ -61,11 +61,12 @@
           </p>
         </li>
         <li class="user-footer">
-          <a
-            href="{% url 'authentication:logout' %}"
-            class="btn btn-danger btn-flat"
-            ><i class="fas fa-sign-out-alt"></i> Salir</a
-          >
+          <form action="{% url 'authentication:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-flat">
+              <i class="fas fa-sign-out-alt"></i> Salir
+            </button>
+          </form>
         </li>
       </ul>
     </li>

@@ -8,83 +8,208 @@
       size: 8.5in 11in;
       margin: 1cm;
     }
-    .format-number{
+    body{
+      line-height: 1.0em;
+    }
+    table {
+      width: 100%;
+    }
+    .item{
       font-weight: bold;
-      text-align:right;
-    }
-
-    .info{
       font-size: 14px;
-      line-height: 2.3;
+      padding: 5px;
+      text-align: left;
     }
-    .info > span{
-      font-weight: bold;
-    }
-
-    #materials thead tr th {
-      font-size: 14px;
-      text-align:center;
-      border-top:1px solid black;
-      border-left: 1px solid black;
-      border-right: 1px solid black;
-      border-bottom:1px solid black;
-      padding-top:4px;
-    }
-
-    #materials thead tr{
-      margin-bottom:0;
-      padding-bottom:0;
-    }
-
-    #materials tbody tr{
+    .data{
+      text-align: center;
+      border: 1px solid black;
+      text-transform: uppercase;
+      padding: 0px;
       font-size: 12px;
-      text-align:center;
-      border-top:1px solid black;
-      border-left: 1px solid black;
-      border-right: 1px solid black;
-      border-bottom:1px solid black;
-      padding:5px 5px 5px 5px;
     }
-
-    #materials tfoot tr th {
-      text-align:right;
-      border:1px 1px 1px 1px solid black;
-      padding:5px 5px 5px 5px;
+    .centered {
+      text-align: center;
+    }
+    .bold {
+      font-weight: bold;
+    }
+    .right {
+      text-align: right;
+    }
+    .titulo {
+      text-align: center;
+      font-size: 11pt;
+      margin-top: 0px;
+      margin-bottom: 25px;
+    }
+    .subtitulo {
+      text-align: center;
+      font-size: 10pt;
+      padding-bottom: 25px;
+      margin-bottom: 15px;
+    }
+    .logo{
+      display: flex;
+      position: fixed;
+      margin-top: -30px;
+      margin-left: -10px;
+      width: 75px;
+      height: 75px;
+    }
+    .hder{
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+    .materials{
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+    }
+    .materials th{
+      padding: 5px 5px 5px 5px;
+      border: 1px solid black;
+      height: 30px;
+      font-size: 12px;
+    }
+    .materials td{
+      padding: 5px 5px 5px 5px;
+      border: 1px solid black;
+      height: 35px;
+      font-size: 10px;
+    }
+    .foter td{
+      line-height: 1.5em;
+      height: 10px;
     }
   </style>
 </head>
 <body>
-  <p class="head"> 
-    <div class="format-number"> SPS-988 </div>
-    <h1 style="text-align: center;">CONSUMO DE DISPOSITIVOS DE FIJACIÓN INTERNA O EXTERNA Y 
+ <div style="text-align: right;font-size: 10px;"> SPS-988 </div>
+  <img class="logo" src="{{ imagen }}" alt="">
+  <h1 class="titulo">
+    CONSUMO DE DISPOSITIVOS DE FIJACIÓN INTERNA O EXTERNA Y
     <br/>
-    OTROS MATERIALES EN SALA DE OPERACIONES</h1>
-  </p>
-  <div class="info">
-    <span>No. de presolicitud:</span><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-    <span>No. de quirófano:</span><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ uptake.operating_room }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-    <span>No. de hoja:</span><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ uptake.number }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-    <br>
-    <span>Lugar y fecha:</span><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quetzaltenango {{ uptake.date }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <span>No. De afilicación:</span><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.patient.membership }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-    <br>
-    <span>Nombres y apellidos del paciente:</span> <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.patient.first_name }} {{ prequest.patient.last_name }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-    <br>
-    <span>Diagnóstico:</span> <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.diagnosis }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-    <br>
-    <span>Procedimiento quirúrgico:</span> <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.procedure }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-    <br>
-    <span>Cirujano:</span> <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ uptake.surgeon }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-    <br>
-    <span>Instrumentista:</span> <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ uptake.instrumentalist }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <span>Circulante:</span> <u>{{ uptake.circulating }}</u>
-  </div>
-  <br>
-  <table id="materials">
+    OTROS MATERIALES EN SALA DE OPERACIONES
+  </h1>
+  <table class="hder">
+    <tr>
+      <td class="item">
+        No. de presolicitud:
+      </td>
+      <td colspan="4" class="data">
+        {{ prequest.number}}
+      </td>
+      <td colspan="3" class="item" style="width: 20%;">
+        No. De Quirófano:
+      </td>
+      <td class="data">
+        {{ uptake.operating_room }}
+      </td>
+      <td colspan="2" class="item" style="width: 15%;">
+        No. De Hoja:
+      </td>
+      <td class="data">
+        {{ uptake.number }}
+      </td>
+    </tr>
+    <tr style="height: 10px;">
+      <td colspan="12"></td>
+    </tr>
+    <tr style="height: 10px;">
+      <td colspan="12"></td>
+    </tr>
+    <tr>
+      <td class="item">
+        Lugar y Fecha: 
+      </td>
+      <td colspan="6" class="data">
+        Quetzaltenango {{ prequest.date }}
+      </td>
+      <td colspan="3" class="item">
+        No. De afilicación:
+      </td>
+      <td colspan="3" class="data">
+        {{ prequest.patient.membership }}
+      </td>
+    </tr>
+    <tr style="height: 10px;">
+      <td colspan="12"></td>
+    </tr>
+    <tr style="height: 10px;">
+      <td colspan="12"></td>
+    </tr>
+    <tr>
+      <td colspan="4" class="item">
+        Nombres y apellidos del paciente:
+      </td>
+      <td colspan="8" class="data">
+        {{ prequest.patient.first_name }} {{ prequest.patient.last_name }}
+      </td>
+    </tr>
+    <tr style="height: 10px;">
+      <td colspan="12"></td>
+    </tr>
+    <tr style="height: 10px;">
+      <td colspan="12"></td>
+    </tr>
+    <tr>
+      <td class="item">
+        Diagnóstico:
+      </td>
+      <td colspan="11" class="data">
+        {{ prequest.diagnosis }}
+      </td>
+    </tr>
+    <tr style="height: 10px;">
+      <td colspan="12"></td>
+    </tr>
+    <tr style="height: 10px;">
+      <td colspan="12"></td>
+    </tr>
+    <tr>
+      <td colspan="3" class="item">
+        Procedimiento quirúrgico:
+      </td>
+      <td colspan="9" class="data">
+        {{ prequest.procedure }}
+      </td>
+    </tr>
+    <tr style="height: 10px;">
+      <td colspan="12"></td>
+    </tr>
+    <tr style="height: 10px;">
+      <td colspan="12"></td>
+    </tr>
+    <tr>
+      <td class="item">
+        Cirujano:
+      </td>
+      <td colspan="11" class="data">
+        {{ uptake.surgeon }}
+      </td>
+    </tr>
+    <tr style="height: 10px;">
+      <td colspan="12"></td>
+    </tr>
+    <tr style="height: 10px;">
+      <td colspan="12"></td>
+    </tr>
+    <tr>
+      <td class="item">
+        Instrumentista:
+      </td>
+      <td colspan="5" class="data">
+        {{ uptake.instrumentalist }}
+      </td>
+      <td colspan="2" class="item">
+        Circulante:
+      </td>
+      <td colspan="4" class="data">
+        {{ uptake.circulating }}
+      </td>
+    </tr>
+  </table>
+  <table class="materials">
     <thead>
       <tr>
         <th width="15%">CÓDIGO</th>
@@ -100,6 +225,22 @@
           <td style="text-align:center;">{{ item.amount }}</td>
         </tr>
       {% endfor %}
+      <tr>
+        <td></td>
+        <td>
+          {% if prequest.stock %}
+            STOCK
+          {% endif %}
+        </td>
+        <td></td>
+      </tr>
+      {% for row in blank %}
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      {% endfor %}
     </tbody>
     <tfoot>
       <tr>
@@ -108,57 +249,29 @@
       </tr>
     </tfoot>
   </table>
-  <br/>
-  <br/>
-  <div class="info">
-    <span>Observaciones:</span><u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ prequest.comment }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u>
-  </div>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  <br/>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <u>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  </u>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <u>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    </u>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <br/>
-  <span>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Firma de la/el circulante y sello del servicio
-  </span>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <span style="text-align: right;">Firma y sello del Cirujano</span>
+  <table class="foter" style="font-size: 12px;">
+    <tr>
+      <td style="width: 15%;">Observaciones:</td>
+      <td colspan="4"><u>{{ prequest.comment }}</u></td>
+    </tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr>
+      <td colspan="2" style="border-top: 1px solid black;text-align: center;width: 45%;">
+        Firma y sello de la/el circulante y sello del servicio
+      </td>
+      <td style="width: 15%;">
+      </td>
+      <td colspan="2" style="border-top: 1px solid black;text-align: center;width: 40%;">
+        Firma y sello del Cirujano
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
