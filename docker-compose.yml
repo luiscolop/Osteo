@@ -23,7 +23,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - static_data:/app/static
+      - static:/app/static
       - /tmp/app/mysqld:/run/mysqld
     depends_on:
       - db
@@ -35,7 +35,7 @@ services:
     ports:
       - 443:443
     volumes:
-      - static_data:/var/www/html/static
+      - static:/var/www/html/static
 
 volumes:
-  static_data:
+  static:
