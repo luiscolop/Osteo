@@ -13,6 +13,7 @@ services:
     volumes:
       - ./dumps/init.sql:/data/application/init.sql
       - /tmp/app/mysqld:/var/run/mysqld
+      - ./db:/var/lib/mysql
   django_app:
     image: django_app
     build:
