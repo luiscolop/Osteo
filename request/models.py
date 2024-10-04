@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from simple_history.models import HistoricalRecords
 
 class Type(models.Model):
   name=models.CharField(max_length=45,verbose_name='Nombre')
@@ -32,6 +33,7 @@ class Patient(models.Model):
   membership=models.CharField(max_length=20,unique=True,verbose_name='Afiliación')
   first_name=models.CharField(max_length=100,verbose_name='Nombres')
   last_name=models.CharField(max_length=100,verbose_name='Apellidos')
+  history = HistoricalRecords()
 
   def __str__(self) -> str:
     return "{} - {},{}".format(self.membership,self.last_name,self.first_name)
@@ -61,6 +63,7 @@ class Material(models.Model):
   stock=models.FloatField(default=0,verbose_name="Existencia")
   unit=models.ForeignKey(Unit,default=1,on_delete=models.PROTECT,verbose_name='Unidad')
   status=models.ForeignKey(Status,default=6,on_delete=models.PROTECT,verbose_name='Estado')
+  history = HistoricalRecords()
   def __str__(self) -> str:
     return self.code
   
@@ -95,6 +98,7 @@ class Entry(models.Model):
   total=models.FloatField(default=0,verbose_name='Total')
   user=models.ForeignKey(User,default=1,on_delete=models.PROTECT,verbose_name='Usuario')
   status=models.ForeignKey(Status,default=16,on_delete=models.PROTECT,verbose_name='Estado')
+  history = HistoricalRecords()
 
   def __str__(self) -> str:
     return str(self.date)
@@ -154,6 +158,7 @@ class PreRequest(models.Model):
   house=models.ForeignKey(MedicalHouse,on_delete=models.PROTECT,null=True,blank=True,verbose_name='Casa médica')
   user=models.ForeignKey(User,on_delete=models.PROTECT,verbose_name='Usuario')
   status=models.ForeignKey(Status,default=1,on_delete=models.PROTECT,verbose_name='Estado')
+  history = HistoricalRecords()
   
   def decline(self):
     new_status = Status.objects.get(pk=1)
@@ -162,6 +167,7 @@ class PreRequest(models.Model):
 
   def store(self):
     new_status = Status.objects.get(pk=2)
+    self.decline_comment = None
     self.status = new_status
     self.save()
   
@@ -235,6 +241,7 @@ class Uptake(models.Model):
   house=models.ForeignKey(MedicalHouse,on_delete=models.PROTECT,verbose_name='Casa médica')
   user=models.ForeignKey(User,on_delete=models.PROTECT,verbose_name='Usuario')
   status=models.ForeignKey(Status,default=9,on_delete=models.PROTECT,verbose_name='Estado')
+  history = HistoricalRecords()
 
   def __str__(self) -> str:
     return self.number

@@ -24,11 +24,9 @@
           <div class="card">
             <div class="card-header">
               <h5 class="card-title">Listado de pre solicitudes</h5>
-              
               {% if request.user|has_group:"Medicos" %}
                 <a type="button" class="btn btn-primary float-right" href="{% url 'request:prerequest_create' %}" target="blank"><i class="fas fa-plus"></i> Nuevo</a>
               {% endif %}
-                
             </div>
             <div class="card-body">
               <table id="lists" class="table table-bordered table-hover table-striped" style="width:100%">
@@ -52,9 +50,17 @@
                       <td>{{ item.house }}</td>                 
                       <td>{{ item.user.username }}</td>
                       <td class="text-center">
-                        <span class="badge {{ item.status.color }}">{{ item.status.name }}</span>
-                        {% if item.abort_user is not None and item.status == 5 %}
-                          <span>({{ item.abort_user }})</span>
+                        <span class="badge {{ item.status.color }} popup">{{ item.status.name }}
+                          {% if item.abort_user is not None and item.status.id == 5 %}
+                            <span>({{ item.abort_user }})</span>
+                            <span class="popuptext">{{ item.abort_comment }}</span>
+                          {% endif %}
+                        </span>
+                        {% if item.decline_comment is not None %}
+                          <span class="badge bg-warning popup">
+                            <i class="fas fa-exclamation"></i>
+                            <span class="popuptext">{{ item.decline_comment }}</span>
+                          </span>
                         {% endif %}
                       </td>
                       <td class="text-center">
