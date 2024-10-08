@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1','localhost','10.11.3.152','10.11.0.39']
 
-CSRF_TRUSTED_ORIGINS = ["https://localhost","https://10.11.3.152","http://10.11.0.39","https://10.11.0.39"]
+CSRF_TRUSTED_ORIGINS = ["https://localhost","https://10.11.3.152","http://10.11.0.39:8010","https://10.11.0.39:8010"]
 
 # Application definition
 
