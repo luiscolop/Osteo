@@ -33,7 +33,7 @@ services:
     depends_on:
       - django_app
     ports:
-      - 80:80
+      - 8010:80
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - static_data:/var/www/html/static
