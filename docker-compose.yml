@@ -23,19 +23,20 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - static_dir:/app/static
+      - static_data:/app/static
       - /tmp/app/mysqld:/run/mysqld
     depends_on:
       - db
       
   nginx:
-    build: ./nginx
+    image: nginx:1.27.0-alpine
     depends_on:
       - django_app
     ports:
-      - 443:443
+      - 80:80
     volumes:
-      - static_dir:/var/www/html/static
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - static_data:/var/www/html/static
 
 volumes:
-  static_dir:
+  static_data:
